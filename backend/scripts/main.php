@@ -73,42 +73,115 @@ echo fact(4);
 echo "<br>";
 
 // Створіть функцію, яка знаходить всі прості числа в заданому діапазоні.
+
 function findPrimes($start, $end) {
     $primes = [];
     for ($i = $start; $i <= $end; $i++) {
-        $gmpNum = gmp_init($i);
-        if (gmp_prob_prime($gmpNum) > 0) {
-            $primes[] = $i;
+        if ($i < 2) continue;
+        $isPrime = true;
+        for ($j = 2; $j <= sqrt($i); $j++) {
+            if ($i % $j === 0) {
+                $isPrime = false;
+                break;
+            }
         }
+        if ($isPrime) $primes[] = $i;
     }
     return $primes;
 }
-
-$primes = findPrimes(1, 10000);
-print_r($primes);
-echo "<br>";
+print_r(findPrimes(10, 50));
 
 // Напишіть функцію для об'єднання двох масивів без повторень.
-function margeArrays($arr1, $arr2) {
+function mergeArrays($arr1, $arr2) { 
     return array_unique(array_merge($arr1, $arr2));
 }
 print_r(mergeArrays([1, 2, 3], [2, 3, 4]));
 echo "<br>";
 
+
 // Створіть функцію, яка приймає рядок та повертає новий рядок, в якому кожне слово починається з великої літери.
+function capitalizeWords($str) {
+    return ucwords($str);
+}
+echo capitalizeWords('hello palmo');
+echo "<br>";
 
 // Напишіть функцію для генерації випадкового пароля заданої довжини.
+function generatePassword($length) {
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+    $password = '';
+    $characterCount = strlen($characters);
+    
+    for ($i = 0; $i < $length; $i++) {
+        $index = mt_rand(0, $characterCount - 1);
+        $password .= $characters[$index];
+    }
+    
+    return $password;
+}
+
+$generatedPassword = generatePassword(12);
+echo $generatedPassword;
+echo "<br>";
 
 // Створіть функцію для знаходження суми елементів на головній діагоналі квадратної матриці.
 
+function diagonalSum($matrix) {
+    $sum = 0;
+    for ($i = 0; $i < count($matrix); $i++) {
+        $sum += $matrix[$i][$i];
+    }
+    return $sum;
+}
+$matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+];
+echo diagonalSum($matrix); 
+echo "<br>";
+
 // Напишіть функцію для видалення всіх HTML-тегів з рядка.
+function stripTags($str) {
+    return strip_tags($str);
+}
+echo stripTags('<p>Hello Palmo</p>');
+echo "<br>";
 
 // Створіть функцію для реверсу асоціативного масиву (замініть ключі на значення і навпаки).
+function reverseAssocArray($arr) {
+    return array_flip($arr);
+}
+$arr = ['a' => 1, 'b' => 2];
+print_r(reverseAssocArray($arr)); 
+echo "<br>";
 
 // Напишіть функцію для перетворення рядка у крапковану нотацію (camelCase).
+function toCamelCase($str) {
+    return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $str))));
+}
+echo toCamelCase('hello_palmo_camel_case');
+echo "<br>";
 
 // Створіть функцію, яка перевіряє, чи є число ступенем двійки.
-
+function isPowerOfTwo($n) {
+    return ($n > 0) && (($n & ($n - 1)) === 0);
+}
+echo isPowerOfTwo(16);
+echo "<br>";
 // Напишіть функцію для сортування масиву об'єктів за значенням конкретного ключа
-
+$products = [
+    ["name" => "Apple", "shelf_life" => 30],
+    ["name" => "Banana", "shelf_life" => 7],    
+    ["name" => "Potato", "shelf_life" => 90],   
+];
+function sortByShelfLife($arr) {
+    usort($arr, function($a, $b) {
+        return $a['shelf_life'] <=> $b['shelf_life'];
+    });
+    return $arr;
+}
+$sortedProducts = sortByShelfLife($products);
+print_r($sortedProducts);
+echo "<br>";
 ?>
